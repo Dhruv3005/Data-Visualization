@@ -7,7 +7,7 @@ import pandas as pd
 
 
 # Define the list of stocks to display
-stocks = ['AAPL', 'GOOG', 'MSFT', 'AMZN']
+stocks = ['AAPL', 'GOOG']
 
 # Define a function to retrieve the latest stock prices from the Yahoo Finance API
 def get_stock_prices():
@@ -34,25 +34,8 @@ app.layout = html.Div(children=[
     [dash.dependencies.Input('interval', 'n_intervals')])
 def update_subsections(n_intervals):
     prices = get_stock_prices()
-    subsections = []
-    for stock, df in prices.items():
-        subsection = html.Div([
-            html.H2(stock),
-            html.Div('Latest Price: ${:.2f}'.format(df['Close'].iloc[-1])),
-            dcc.Graph(
-                figure={
-                    'data': [
-                        {'x': df.index, 'y': df['Close'], 'type': 'line'}
-                    ],
-                    'layout': {
-                        'xaxis': {'title': 'Date'},
-                        'yaxis': {'title': 'Price'},
-                    }
-                }
-            ),
-        ])
-        subsections.append(subsection)
-    return subsections
+    
+    return prices
 
 if __name__ == '__main__':
     app.run_server(debug=True)
